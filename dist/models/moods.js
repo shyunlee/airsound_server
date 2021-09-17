@@ -1,36 +1,31 @@
 'use strict';
-import { Model } from 'sequelize';
-module.exports = (sequelize, DataTypes) => {
-    class Moods extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Moods = void 0;
+const sequelize_1 = require("sequelize");
+const database_1 = require("../db/database");
+exports.Moods = database_1.sequelize.define('moods', {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+    },
+    title: sequelize_1.DataTypes.STRING(45),
+    user_id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+    },
+    video_id: sequelize_1.DataTypes.INTEGER,
+    timer: sequelize_1.DataTypes.INTEGER,
+    createdAt: {
+        type: 'DATETIME',
+        allowNull: false
+    },
+    updatedAt: {
+        type: 'DATETIME',
+        allowNull: false
     }
-    ;
-    Moods.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true,
-        },
-        title: DataTypes.STRING(45),
-        userId: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true,
-        },
-        videoId: DataTypes.INTEGER,
-        timer: DataTypes.INTEGER
-    }, {
-        sequelize,
-        modelName: 'moods',
-    });
-    return Moods;
-};
+});
+exports.default = exports.Moods;

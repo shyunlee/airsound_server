@@ -1,40 +1,33 @@
 'use strict';
-import { Model } from 'sequelize';
-module.exports = (sequelize, DataTypes) => {
-    class Users extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
+Object.defineProperty(exports, "__esModule", { value: true });
+const sequelize_1 = require("sequelize");
+const database_1 = require("../db/database");
+const Users = database_1.sequelize.define('users', {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+    },
+    username: {
+        type: sequelize_1.DataTypes.STRING(45),
+        allowNull: false,
+    },
+    email: {
+        type: sequelize_1.DataTypes.STRING(128),
+        allowNull: false,
+    },
+    password: {
+        type: sequelize_1.DataTypes.STRING(45),
+        allowNull: false,
+    },
+    src_image: sequelize_1.DataTypes.STRING(128),
+    createdAt: {
+        type: 'DATETIME',
+        allowNull: false
+    },
+    updatedAt: {
+        type: 'DATETIME',
     }
-    ;
-    Users.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true,
-        },
-        username: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING(128),
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        src_img: DataTypes.TEXT
-    }, {
-        sequelize,
-        modelName: 'users',
-    });
-    return Users;
-};
+});
+exports.default = Users;

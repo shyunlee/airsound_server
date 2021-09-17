@@ -1,28 +1,21 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-const config = {
-  development: {
+export const config = {
+  dev: {
     username: "root",
     password: process.env.DB_PASSWORD,
     database: "airsound_dev",
     host: "localhost",
-    dialect: "mysql"
+    dialect: "mysql",
+    port: 3306
   },
-  test: {
-    username: "root",
-    password: null,
-    database: "database_test",
-    host: "127.0.0.1",
-    dialect: "mysql"
-  },
-  production: {
+  prod: {
     username: "root",
     password: null,
     database: "database_production",
     host: "127.0.0.1",
-    dialect: "mysql"
+    dialect: "mysql",
+    port: 3306
   }
 }
-
-export default config;

@@ -1,22 +1,23 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sounds = void 0;
+exports.MoodSound = void 0;
 const sequelize_1 = require("sequelize");
 const database_1 = require("../db/database");
-exports.Sounds = database_1.sequelize.define('sounds', {
+exports.MoodSound = database_1.sequelize.define('mood_sound', {
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true,
     },
-    title: {
-        type: sequelize_1.DataTypes.STRING(45),
+    mood_id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false
+    },
+    sound_id: {
+        type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
     },
-    src_image: sequelize_1.DataTypes.TEXT,
-    src_sound: sequelize_1.DataTypes.TEXT,
-    volume: sequelize_1.DataTypes.INTEGER,
     createdAt: {
         type: 'DATETIME',
     },
@@ -24,4 +25,4 @@ exports.Sounds = database_1.sequelize.define('sounds', {
         type: 'DATETIME',
     }
 });
-exports.default = exports.Sounds;
+exports.default = exports.MoodSound;

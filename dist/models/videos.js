@@ -1,33 +1,26 @@
 'use strict';
-import { Model } from 'sequelize';
-module.exports = (sequelize, DataTypes) => {
-    class Videos extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
-        static associate(models) {
-            // define association here
-        }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Videos = void 0;
+const sequelize_1 = require("sequelize");
+const database_1 = require("../db/database");
+exports.Videos = database_1.sequelize.define('videos', {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+    },
+    title: {
+        type: sequelize_1.DataTypes.STRING(45),
+        allowNull: false,
+    },
+    src_image: sequelize_1.DataTypes.TEXT,
+    src_video: sequelize_1.DataTypes.TEXT,
+    createdAt: {
+        type: 'DATETIME',
+    },
+    updatedAt: {
+        type: 'DATETIME',
     }
-    ;
-    Videos.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true,
-        },
-        title: {
-            type: DataTypes.STRING(45),
-            allowNull: false,
-        },
-        src_image: DataTypes.TEXT,
-        src_video: DataTypes.TEXT
-    }, {
-        sequelize,
-        modelName: 'videos',
-    });
-    return Videos;
-};
+});
+exports.default = exports.Videos;

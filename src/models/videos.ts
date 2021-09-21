@@ -2,11 +2,11 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../db/database';
 
-interface VideoAttributes {
+export interface VideoAttributes {
   id: number;
   title: string;
-  src_image: string;
-  src_video: string;
+  srcImage: string;
+  srcVideo: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -30,8 +30,8 @@ export const Videos = sequelize.define<VideoInstance>('videos', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
-  src_image: DataTypes.TEXT,
-  src_video: DataTypes.TEXT,
+  srcImage: DataTypes.TEXT,
+  srcVideo: DataTypes.TEXT,
   createdAt:{
     type: 'DATETIME',
   },

@@ -1,15 +1,17 @@
+import { MoodSoundAttributes } from './mood_sounds';
 'use strict';
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../db/database';
 
-interface SoundAttributes {
+export interface SoundAttributes {
   id: number;
   title: string;
-  src_image: string;
-  src_sound: string;
+  srcImage: string;
+  srcSound: string;
   volume: number;
   createdAt?: Date;
   updatedAt?: Date;
+  mood_sounds?: MoodSoundAttributes;
 }
 
 interface SoundCreationAttributes extends Optional<SoundAttributes, 'id' | 'createdAt' | 'updatedAt'> {
@@ -31,8 +33,8 @@ export const Sounds = sequelize.define<SoundInstance>('sounds', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
-  src_image: DataTypes.TEXT,
-  src_sound: DataTypes.TEXT,
+  srcImage: DataTypes.TEXT,
+  srcSound: DataTypes.TEXT,
   volume: DataTypes.INTEGER,
   createdAt:{
     type: 'DATETIME',

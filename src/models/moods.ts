@@ -1,13 +1,18 @@
 'use strict';
 import { DataTypes, Optional, Model } from 'sequelize';
 import { sequelize } from '../db/database';
+import { SoundAttributes } from './sounds';
+import Users from './users';
+import { VideoAttributes } from './videos';
 
 interface MoodAttributes {
   id: number;
   title: string;
-  user_id: number
-  video_id: number;
+  userId: number
+  videoId: number;
   timer: number;
+  sounds?: SoundAttributes[];
+  video?: VideoAttributes;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -28,13 +33,11 @@ export const Moods = sequelize.define<MoodInstance>('moods', {
       primaryKey: true,
     },
     title: DataTypes.STRING(45),
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
     },
-    video_id: DataTypes.INTEGER,
+    videoId: DataTypes.INTEGER,
     timer: DataTypes.INTEGER,
     createdAt:{
       type: 'DATETIME',
@@ -46,6 +49,7 @@ export const Moods = sequelize.define<MoodInstance>('moods', {
     }
   },
 )
+
 
 export default Moods;
 

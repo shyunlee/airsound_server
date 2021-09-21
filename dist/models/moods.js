@@ -11,13 +11,11 @@ exports.Moods = database_1.sequelize.define('moods', {
         primaryKey: true,
     },
     title: sequelize_1.DataTypes.STRING(45),
-    user_id: {
+    userId: {
         type: sequelize_1.DataTypes.INTEGER,
-        autoIncrement: true,
         allowNull: false,
-        primaryKey: true,
     },
-    video_id: sequelize_1.DataTypes.INTEGER,
+    videoId: sequelize_1.DataTypes.INTEGER,
     timer: sequelize_1.DataTypes.INTEGER,
     createdAt: {
         type: 'DATETIME',

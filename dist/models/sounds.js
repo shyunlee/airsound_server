@@ -14,8 +14,8 @@ exports.Sounds = database_1.sequelize.define('sounds', {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: false,
     },
-    src_image: sequelize_1.DataTypes.TEXT,
-    src_sound: sequelize_1.DataTypes.TEXT,
+    srcImage: sequelize_1.DataTypes.TEXT,
+    srcSound: sequelize_1.DataTypes.TEXT,
     volume: sequelize_1.DataTypes.INTEGER,
     createdAt: {
         type: 'DATETIME',

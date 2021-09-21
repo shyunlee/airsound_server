@@ -27,19 +27,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = exports.signup = void 0;
-const userRepository = __importStar(require("../data/auth"));
+exports.me = exports.logout = exports.login = exports.signup = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const authRepository = __importStar(require("../data/auth"));
+const config_1 = require("../config/config");
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield userRepository.editUserInfo(1, req.body);
-    res.status(200).json({ message: 'ok', data: result });
+    const userFound = yield authRepository.getByEmail(req.body.email);
+    if (userFound) {
+        return res.status(400).json({ message: 'user aleady registerd' });
+    }
+    const hashed = yield bcrypt_1.default.hash(req.body.password, config_1.config.bcrypt.saltRounds);
+    const userInfo = Object.assign(Object.assign({}, req.body), { password: hashed });
+    const id = yield authRepository.createUser(userInfo);
+    const token = createToken(id);
+    setToken(res, token);
+    res.status(200).json({ message: 'ok', data: { id, token } });
 });
 exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json({ message: 'ok' });
+    const userFound = yield authRepository.getByEmail(req.body.email);
+    if (userFound) {
+        const verified = yield bcrypt_1.default.compare(req.body.password, userFound.password);
+        if (verified) {
+            const token = createToken(userFound.id);
+            const userInfo = {
+                id: userFound.id,
+                username: userFound.username,
+                email: userFound.email,
+                src_image: userFound.src_image,
+                token: token
+            };
+            setToken(res, token);
+            return res.status(200).json({ message: 'ok', data: { userInfo } });
+        }
+    }
+    res.status(400).json({ message: 'login failed' });
 });
 exports.login = login;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.cookie('token', '');
     res.status(200).json({ message: 'ok' });
 });
 exports.logout = logout;
+const me = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userFound = yield authRepository.getById(req.userId);
+    if (!userFound) {
+        return res.status(404).json({ message: 'user not found' });
+    }
+    res.status(200).json({ message: 'ok', data: { id: userFound.id, token: req.token } });
+});
+exports.me = me;
+const createToken = (id) => {
+    return jsonwebtoken_1.default.sign({ id }, config_1.config.jwt.secretKey, { expiresIn: config_1.config.jwt.expiredInSec });
+};
+const setToken = (res, token) => {
+    const options = {
+        maxAge: config_1.config.jwt.expiredInSec * 1000,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true
+    };
+    res.cookie('token', token, options);
+};

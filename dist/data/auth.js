@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editUserInfo = exports.createUser = exports.getByUsername = exports.getById = void 0;
+exports.editUserInfo = exports.createUser = exports.getByEmail = exports.getByUsername = exports.getById = void 0;
 const users_1 = __importDefault(require("../models/users"));
 const getById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return users_1.default.findByPk(id);
@@ -22,8 +22,12 @@ const getByUsername = (username) => __awaiter(void 0, void 0, void 0, function* 
     return users_1.default.findOne({ where: { username } });
 });
 exports.getByUsername = getByUsername;
+const getByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    return users_1.default.findOne({ where: { email } });
+});
+exports.getByEmail = getByEmail;
 const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
-    return users_1.default.create(userInfo);
+    return users_1.default.create(userInfo).then(result => result.id);
 });
 exports.createUser = createUser;
 const editUserInfo = (id, edit) => __awaiter(void 0, void 0, void 0, function* () {

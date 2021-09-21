@@ -6,6 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+const getEnvData = (key, defaultValue = undefined) => {
+    const value = process.env[key] || defaultValue;
+    if (value == null) {
+        throw new Error('key (${key}) is undefined');
+    }
+    return value;
+};
 exports.config = {
     dev: {
         username: "root",
@@ -22,5 +29,12 @@ exports.config = {
         host: "127.0.0.1",
         dialect: "mysql",
         port: 3306
+    },
+    bcrypt: {
+        saltRounds: parseInt(getEnvData('BCRYPT_SALT_ROUNDS', 10))
+    },
+    jwt: {
+        secretKey: getEnvData('JWT_SECRET_KEY'),
+        expiredInSec: parseInt(getEnvData('JWT_EXPIRES_SEC'))
     }
 };

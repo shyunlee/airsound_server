@@ -22,10 +22,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const auth_1 = require("./../middleware/auth");
 const express_1 = __importDefault(require("express"));
 const authController = __importStar(require("../controller/authController"));
 const router = express_1.default.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
+router.get('/me', auth_1.isAuth, authController.me);
 exports.default = router;

@@ -14,8 +14,8 @@ exports.Videos = database_1.sequelize.define('videos', {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: false,
     },
-    src_image: sequelize_1.DataTypes.TEXT,
-    src_video: sequelize_1.DataTypes.TEXT,
+    srcImage: sequelize_1.DataTypes.TEXT,
+    srcVideo: sequelize_1.DataTypes.TEXT,
     createdAt: {
         type: 'DATETIME',
     },

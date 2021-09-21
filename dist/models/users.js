@@ -21,7 +21,7 @@ const Users = database_1.sequelize.define('users', {
         type: sequelize_1.DataTypes.STRING(45),
         allowNull: false,
     },
-    src_image: sequelize_1.DataTypes.STRING(128),
+    srcImage: sequelize_1.DataTypes.STRING(128),
     createdAt: {
         type: 'DATETIME',
         allowNull: false

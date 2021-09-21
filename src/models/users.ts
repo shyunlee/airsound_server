@@ -7,12 +7,12 @@ export interface UserAttributes {
   username: string;
   email: string;
   password: string;
-  src_image: string;
+  srcImage: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, "id" | "updatedAt" | "src_image"> {
+export interface UserCreationAttributes extends Optional<UserAttributes, "id" | "updatedAt" | "srcImage"> {
 
 }
 
@@ -40,7 +40,7 @@ const Users = sequelize.define<UserInstance>('users', {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
-  src_image: DataTypes.STRING(128),
+  srcImage: DataTypes.STRING(128),
   createdAt:{
     type: 'DATETIME',
     allowNull: false

@@ -1,6 +1,15 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+const getEnvData = (key, defaultValue = undefined) => {
+  const value = process.env[key] || defaultValue
+  if (value == null) {
+    throw new Error('key (${key}) is undefined')
+  }
+
+  return value
+}
+
 export const config = {
   dev: {
     username: "root",
@@ -17,5 +26,12 @@ export const config = {
     host: "127.0.0.1",
     dialect: "mysql",
     port: 3306
+  },
+  bcrypt: {
+    saltRounds: parseInt(getEnvData('BCRYPT_SALT_ROUNDS', 10))
+  },
+  jwt: {
+    secretKey: getEnvData('JWT_SECRET_KEY'),
+    expiredInSec: parseInt(getEnvData('JWT_EXPIRES_SEC'))
   }
 }

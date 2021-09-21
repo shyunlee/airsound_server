@@ -8,8 +8,12 @@ export const getByUsername = async (username: string) => {
   return UserModel.findOne({where:{username}})
 }
 
+export const getByEmail = async (email: string) => {
+  return UserModel.findOne({where:{email}})
+}
+
 export const createUser = async (userInfo: UserCreationAttributes) => {
-  return UserModel.create(userInfo)
+  return UserModel.create(userInfo).then(result => result.id)
 }
 
 type Edit = {

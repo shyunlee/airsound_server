@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+import { config } from '../config/config'
 import UserModel, {UserCreationAttributes, UserInstance } from '../models/users'
 
 export const getById = async (id:number) => {
@@ -18,31 +20,40 @@ export const createUser = async (userInfo: UserCreationAttributes) => {
 
 type Edit = {
   username?: string,
-  email?:string,
-  password?: string,
-  src_image?:string
+  email?: string,
+  currentPassword?: string;
+  newPassword?: string;
+  srcImage?:string
 }
 
 export const editUserInfo = async (id: number, edit:Edit) => {
+  console.log(edit)
   const username = edit.username && edit.username 
   const email = edit.email && edit.email
-  const password = edit.password && edit.password
-  const src_image = edit.src_image && edit.src_image
+  const currentPassword = edit.currentPassword && edit.currentPassword
+  const newPassword = edit.newPassword && edit.newPassword
+  const srcImage = edit.srcImage && edit.srcImage
   
-  return UserModel.findByPk(id).then((user) => {
+  return UserModel.findByPk(id).then( async (user) => {
     user = user! as UserInstance
+    let message: string = 'update completed'
+    if (srcImage) {
+      user.srcImage = srcImage
+    }
     if (username) {
       user.username = username
     }
     if (email) {
       user.email = email
     }
-    if (password) {
-      user.password = password
+    if (newPassword) {
+      const isMatched = await bcrypt.compare(currentPassword!, user.password)
+      if (isMatched) {
+        user.password = await bcrypt.hash(newPassword, config.bcrypt.saltRounds)
+      } else {
+        message = 'password unmatched'
+      }
     }
-    if (src_image) {
-      user.src_image = src_image
-    }
-    return user.save()
+    return user.save().then(user => ({id:user.id, username:user.username, email:user.email, srcImage: user.srcImage, message}))
   })
 }

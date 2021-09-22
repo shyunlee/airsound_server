@@ -29,7 +29,7 @@ export const login = async (req: Request, res: Response) => {
         id: userFound.id,
         username: userFound.username,
         email: userFound.email,
-        src_image: userFound.src_image,
+        srcImage: userFound.srcImage,
         token: token
       }
       setToken(res, token)

@@ -7,9 +7,9 @@ import { VideoAttributes } from './videos';
 
 interface MoodAttributes {
   id: number;
-  title: string;
+  title: string | undefined;
   userId: number
-  videoId: number;
+  videoId: number | undefined;
   timer: number;
   sounds?: SoundAttributes[];
   video?: VideoAttributes;

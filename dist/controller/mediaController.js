@@ -28,7 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMood = exports.editMood = exports.saveMood = exports.getAllSounds = exports.getAllVideos = exports.getAllMedia = void 0;
+exports.deleteMood = exports.editMood = exports.saveMood = exports.getAllMedia = void 0;
 const mediaRepository = __importStar(require("../data/media"));
 const getAllMedia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const videos = yield mediaRepository.getAllVideos();
@@ -40,23 +40,63 @@ const getAllMedia = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.status(200).json({ messae: 'ok', data: { moods, videos, sounds } });
 });
 exports.getAllMedia = getAllMedia;
-const getAllVideos = (req, res) => {
-    res.status(200).json({ messae: 'ok' });
-};
-exports.getAllVideos = getAllVideos;
-const getAllSounds = (req, res) => {
-    res.status(200).json({ messae: 'ok' });
-};
-exports.getAllSounds = getAllSounds;
-const saveMood = (req, res) => {
-    res.status(200).json({ messae: 'ok' });
-};
+// export const getAllVideos = (req: Request, res: Response) => {
+//   res.status(200).json({messae: 'ok'})
+// }
+// export const getAllSounds = (req: Request, res: Response) => {
+//   res.status(200).json({messae: 'ok'})
+// }
+const saveMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.userId) {
+        return res.status(400).json({ message: 'member only' });
+    }
+    try {
+        const { userId, title, timer, videoId, sounds } = req.body;
+        const moodId = yield mediaRepository.insertOnMood({ userId, title, timer, videoId });
+        const result = yield mediaRepository.insertOnMoodSound({ moodId, sounds });
+        res.status(200).json({ messae: 'ok' });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).json({ message: 'something went wrong' });
+    }
+});
 exports.saveMood = saveMood;
-const editMood = (req, res) => {
-    res.status(200).json({ messae: 'ok' });
-};
+const editMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.userId) {
+        return res.status(400).json({ message: 'member only' });
+    }
+    try {
+        const { userId, moodId, title, timer, videoId, sounds } = req.body;
+        const response = yield mediaRepository.editOnMood({ userId, moodId, title, timer, videoId });
+        if (response[0] !== 0) {
+            const result = yield mediaRepository.editOnMoodSound({ moodId, sounds });
+            return res.status(200).json({ messae: 'ok', data: result });
+        }
+        res.status(400).json({ messae: 'something went wrong' });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).json({ message: 'something went wrong' });
+    }
+});
 exports.editMood = editMood;
-const deleteMood = (req, res) => {
-    res.status(200).json({ messae: 'ok' });
-};
+const deleteMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.userId) {
+        return res.status(400).json({ message: 'member only' });
+    }
+    try {
+        const moodId = req.body.moodId;
+        const response = yield mediaRepository.deleteOnMood(moodId);
+        const result = yield mediaRepository.deleteOnMoodSound(moodId);
+        if (response === 1 && result !== 0) {
+            res.status(200).json({ message: 'ok' });
+        }
+        res.status(200).json({ message: 'something went wrong' });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).json({ message: 'something went wrong' });
+    }
+});
 exports.deleteMood = deleteMood;

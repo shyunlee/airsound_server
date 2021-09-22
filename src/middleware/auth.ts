@@ -55,11 +55,11 @@ export const isMember = (req: RequestT, res: Response, next: NextFunction) => {
   const jwtCallBack: VerifyCallback = async (err, decoded) => {
     if (err) {
       console.log(err)
-      return res.status(401).json({message: 'Authentication Error_1'})
+      return res.status(401).json({message: 'Authentication Error_3'})
     }
     const userFound = await authRepository.getById(decoded?.id)
     if (!userFound) {
-      return res.status(401).json({message: 'Authentication Error_2'})
+      return res.status(401).json({message: 'Authentication Error_4'})
     }
     req.userId = userFound.id
     req.token = token

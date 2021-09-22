@@ -31,6 +31,7 @@ exports.MoodSound = database_1.sequelize.define('mood_sounds', {
             key: 'id'
         }
     },
+    customVolume: sequelize_1.DataTypes.INTEGER,
     createdAt: {
         type: 'DATETIME',
     },

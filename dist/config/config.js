@@ -36,5 +36,8 @@ exports.config = {
     jwt: {
         secretKey: getEnvData('JWT_SECRET_KEY'),
         expiredInSec: parseInt(getEnvData('JWT_EXPIRES_SEC'))
+    },
+    default: {
+        timer: 3600
     }
 };

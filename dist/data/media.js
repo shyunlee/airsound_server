@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMoodsByUser = exports.getAllVideos = exports.getAllSounds = void 0;
+exports.deleteOnMoodSound = exports.deleteOnMood = exports.editOnMoodSound = exports.editOnMood = exports.insertOnMoodSound = exports.insertOnMood = exports.getMoodsByUser = exports.getAllVideos = exports.getAllSounds = void 0;
 const sounds_1 = __importDefault(require("../models/sounds"));
 const videos_1 = __importDefault(require("../models/videos"));
 const moods_1 = __importDefault(require("../models/moods"));
@@ -50,3 +50,57 @@ const getMoodsByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 exports.getMoodsByUser = getMoodsByUser;
+const insertOnMood = (mood) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield moods_1.default.create(mood);
+    return result.id;
+});
+exports.insertOnMood = insertOnMood;
+const insertOnMoodSound = ({ moodId, sounds }) => __awaiter(void 0, void 0, void 0, function* () {
+    for (let i = 0; i < sounds.length; i++) {
+        yield mood_sounds_1.default.create({
+            moodId,
+            soundId: sounds[i].soundId,
+            customVolume: sounds[i].customVolume
+        });
+    }
+    const result = yield mood_sounds_1.default.findAll({
+        attributes: ["id", "moodId", "soundId", "customVolume"],
+        where: { moodId }
+    });
+    return result;
+});
+exports.insertOnMoodSound = insertOnMoodSound;
+const editOnMood = (mood) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, videoId, timer, moodId } = mood;
+    const result = yield moods_1.default.update({
+        title,
+        videoId,
+        timer
+    }, {
+        where: { id: moodId }
+    });
+    return result;
+});
+exports.editOnMood = editOnMood;
+const editOnMoodSound = ({ moodId, sounds }) => __awaiter(void 0, void 0, void 0, function* () {
+    const deleted = yield (0, exports.deleteOnMoodSound)(moodId);
+    const result = yield (0, exports.insertOnMoodSound)({ moodId, sounds });
+    return result;
+});
+exports.editOnMoodSound = editOnMoodSound;
+const deleteOnMood = (moodId) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield moods_1.default.destroy({
+        where: {
+            id: moodId
+        }
+    });
+});
+exports.deleteOnMood = deleteOnMood;
+const deleteOnMoodSound = (moodId) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield mood_sounds_1.default.destroy({
+        where: {
+            moodId
+        }
+    });
+});
+exports.deleteOnMoodSound = deleteOnMoodSound;

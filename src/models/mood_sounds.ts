@@ -8,6 +8,7 @@ export interface MoodSoundAttributes {
   id: number;
   moodId: number;
   soundId: number;
+  customVolume: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -43,6 +44,7 @@ export const MoodSound = sequelize.define<MoodSoundInstance>('mood_sounds', {
         key: 'id'
       }
     },
+    customVolume: DataTypes.INTEGER,
     createdAt:{
       type: 'DATETIME',
     },

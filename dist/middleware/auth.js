@@ -78,11 +78,11 @@ const isMember = (req, res, next) => {
     const jwtCallBack = (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             console.log(err);
-            return res.status(401).json({ message: 'Authentication Error_1' });
+            return res.status(401).json({ message: 'Authentication Error_3' });
         }
         const userFound = yield authRepository.getById(decoded === null || decoded === void 0 ? void 0 : decoded.id);
         if (!userFound) {
-            return res.status(401).json({ message: 'Authentication Error_2' });
+            return res.status(401).json({ message: 'Authentication Error_4' });
         }
         req.userId = userFound.id;
         req.token = token;

@@ -7,12 +7,12 @@ export interface UserAttributes {
   username: string;
   email: string;
   password: string;
-  srcImage: string;
+  srcImage: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface UserCreationAttributes extends Optional<UserAttributes, "id" | "updatedAt" | "srcImage"> {
+export interface UserCreationAttributes extends Optional<UserAttributes, "id" | "updatedAt"> {
 
 }
 

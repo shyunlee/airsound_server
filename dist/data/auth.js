@@ -29,7 +29,14 @@ const getByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getByEmail = getByEmail;
 const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
-    return users_1.default.create(userInfo).then(result => result.id);
+    return users_1.default.create(userInfo).then(user => {
+        return {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            srcImage: user.srcImage
+        };
+    });
 });
 exports.createUser = createUser;
 const editUserInfo = (id, edit) => __awaiter(void 0, void 0, void 0, function* () {

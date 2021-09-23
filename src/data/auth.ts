@@ -15,7 +15,14 @@ export const getByEmail = async (email: string) => {
 }
 
 export const createUser = async (userInfo: UserCreationAttributes) => {
-  return UserModel.create(userInfo).then(result => result.id)
+  return UserModel.create(userInfo).then(user => {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      srcImage: user.srcImage
+    }
+  })
 }
 
 type Edit = {

@@ -39,14 +39,14 @@ const config_1 = require("../config/config");
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userFound = yield authRepository.getByEmail(req.body.email);
     if (userFound) {
-        return res.status(400).json({ message: 'user aleady registerd' });
+        return res.status(409).json({ message: 'user aleady registerd' });
     }
     const hashed = yield bcrypt_1.default.hash(req.body.password, config_1.config.bcrypt.saltRounds);
     const userInfo = Object.assign(Object.assign({}, req.body), { password: hashed });
-    const id = yield authRepository.createUser(userInfo);
-    const token = createToken(id);
+    const userCreated = yield authRepository.createUser(userInfo);
+    const token = createToken(userCreated.id);
     setToken(res, token);
-    res.status(200).json({ message: 'ok', data: { id, token } });
+    res.status(200).json({ message: 'ok', data: userCreated });
 });
 exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -60,13 +60,12 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 username: userFound.username,
                 email: userFound.email,
                 srcImage: userFound.srcImage,
-                token: token
             };
             setToken(res, token);
-            return res.status(200).json({ message: 'ok', data: { userInfo } });
+            return res.status(200).json({ message: 'ok', data: userInfo });
         }
     }
-    res.status(400).json({ message: 'login failed' });
+    res.status(406).json({ message: 'login failed' });
 });
 exports.login = login;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -79,7 +78,13 @@ const me = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!userFound) {
         return res.status(404).json({ message: 'user not found' });
     }
-    res.status(200).json({ message: 'ok', data: { id: userFound.id, token: req.token } });
+    const response = {
+        id: userFound.id,
+        username: userFound.username,
+        email: userFound.email,
+        srcImage: userFound.srcImage,
+    };
+    res.status(200).json({ message: 'ok', data: response });
 });
 exports.me = me;
 const createToken = (id) => {
@@ -92,5 +97,5 @@ const setToken = (res, token) => {
         sameSite: 'none',
         secure: true
     };
-    res.cookie('token', token, options);
+    res.cookie('token', token);
 };

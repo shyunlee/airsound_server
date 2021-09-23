@@ -8,11 +8,12 @@ import { sequelize } from './db/database.js'
 import authRouter from './router/auth'
 import mediaRouter from './router/media'
 import settingRouter from './router/setting'
+import { config } from './config/config';
 
 const app = express()
 
 const corsOption = {
-  origin: '*',
+  origin: config.cors.allowOrigin,
   optionsSuccessStatus: 200,
   credentials: true,
 }

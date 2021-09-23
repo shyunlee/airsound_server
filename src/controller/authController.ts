@@ -8,15 +8,14 @@ import { RequestT } from '../middleware/auth'
 export const signup = async (req: Request, res: Response) => {
   const userFound = await authRepository.getByEmail(req.body.email)
   if (userFound) {
-    return res.status(400).json({message: 'user aleady registerd'})
+    return res.status(409).json({message: 'user aleady registerd'})
   }
   const hashed = await bcrypt.hash(req.body.password, config.bcrypt.saltRounds)
   const userInfo = {...req.body, password: hashed}
-  const id = await authRepository.createUser(userInfo)
-  const token = createToken(id)
+  const userCreated = await authRepository.createUser(userInfo)
+  const token = createToken(userCreated.id)
   setToken(res, token)
-  res.status(200).json({message: 'ok', data:{id, token}})
-  
+  res.status(200).json({message: 'ok', data:userCreated})
 }
 
 export const login = async (req: Request, res: Response) => {
@@ -30,13 +29,12 @@ export const login = async (req: Request, res: Response) => {
         username: userFound.username,
         email: userFound.email,
         srcImage: userFound.srcImage,
-        token: token
       }
       setToken(res, token)
-      return res.status(200).json({message:'ok', data:{userInfo}})
+      return res.status(200).json({message:'ok', data:userInfo})
     }
   }
-  res.status(400).json({message: 'login failed'})
+  res.status(406).json({message: 'login failed'})
 }
 
 export const logout = async (req: Request, res: Response): Promise<void> => {
@@ -49,7 +47,13 @@ export const me = async (req: RequestT, res: Response) => {
   if (!userFound) {
     return res.status(404).json({message:'user not found'})
   }
-  res.status(200).json({message: 'ok', data:{id:userFound.id, token:req.token }})
+  const response = {
+    id: userFound.id,
+    username: userFound.username,
+    email: userFound.email,
+    srcImage: userFound.srcImage,
+  }
+  res.status(200).json({message: 'ok', data:response})
 }
 
 
@@ -64,5 +68,5 @@ const setToken = (res: Response, token: string) => {
     sameSite: 'none',
     secure: true
   }
-  res.cookie('token', token, options)
+  res.cookie('token', token)
 }

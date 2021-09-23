@@ -39,5 +39,8 @@ exports.config = {
     },
     default: {
         timer: 3600
+    },
+    cors: {
+        allowOrigin: getEnvData('CORS_ALLOW_ORIGIN')
     }
 };

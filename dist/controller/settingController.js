@@ -35,7 +35,8 @@ const getUserInfo = (req, res) => {
 };
 exports.getUserInfo = getUserInfo;
 const editUserInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, edit } = req.body;
+    const userId = req.userId;
+    const edit = req.body;
     const result = yield authRepository.editUserInfo(userId, edit);
     res.status(200).json({ message: 'ok', data: result });
 });

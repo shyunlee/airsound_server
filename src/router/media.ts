@@ -11,7 +11,7 @@ router.post('/savemood', mediaController.saveMood)
 
 router.post('/editmood', mediaController.editMood)
 
-router.get('/deletemood', mediaController.deleteMood)
+router.delete('/:id', mediaController.deleteMood)
 
 
 export default router;

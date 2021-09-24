@@ -40,7 +40,6 @@ const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.createUser = createUser;
 const editUserInfo = (id, edit) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(edit);
     const username = edit.username && edit.username;
     const email = edit.email && edit.email;
     const currentPassword = edit.currentPassword && edit.currentPassword;

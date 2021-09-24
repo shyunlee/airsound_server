@@ -34,7 +34,6 @@ type Edit = {
 }
 
 export const editUserInfo = async (id: number, edit:Edit) => {
-  console.log(edit)
   const username = edit.username && edit.username 
   const email = edit.email && edit.email
   const currentPassword = edit.currentPassword && edit.currentPassword

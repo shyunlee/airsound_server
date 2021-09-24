@@ -20,11 +20,15 @@ const mood_sounds_1 = __importDefault(require("../models/mood_sounds"));
 moods_1.default.belongsTo(videos_1.default, { foreignKey: 'videoId' });
 moods_1.default.belongsToMany(sounds_1.default, { through: mood_sounds_1.default });
 const getAllSounds = () => __awaiter(void 0, void 0, void 0, function* () {
-    return sounds_1.default.findAll();
+    return sounds_1.default.findAll({
+        attributes: ["id", "title", "srcImage", "srcSound", "volume"]
+    });
 });
 exports.getAllSounds = getAllSounds;
 const getAllVideos = () => __awaiter(void 0, void 0, void 0, function* () {
-    return videos_1.default.findAll();
+    return videos_1.default.findAll({
+        attributes: ["id", "title", "srcImage", "srcVideo"]
+    });
 });
 exports.getAllVideos = getAllVideos;
 const getMoodsByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,6 +48,7 @@ const getMoodsByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
             {
                 model: sounds_1.default,
                 attributes: ["id", "title", "srcImage", "srcSound", "volume"],
+                // include: [MoodSoundModel]
             }
         ]
     });

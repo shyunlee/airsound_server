@@ -33,11 +33,8 @@ const mediaRepository = __importStar(require("../data/media"));
 const getAllMedia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const videos = yield mediaRepository.getAllVideos();
     const sounds = yield mediaRepository.getAllSounds();
-    if (!req.userId) {
-        return res.status(200).json({ messae: 'ok', data: { videos, sounds } });
-    }
-    const moods = yield mediaRepository.getMoodsByUser(req.userId);
-    res.status(200).json({ messae: 'ok', data: { moods, videos, sounds } });
+    const moods = req.userId ? yield mediaRepository.getMoodsByUser(req.userId) : [];
+    res.status(200).json({ message: 'ok', data: { moods, videos, sounds } });
 });
 exports.getAllMedia = getAllMedia;
 // export const getAllVideos = (req: Request, res: Response) => {
@@ -51,7 +48,8 @@ const saveMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).json({ message: 'member only' });
     }
     try {
-        const { userId, title, timer, videoId, sounds } = req.body;
+        const userId = req.userId;
+        const { title, timer, videoId, sounds } = req.body;
         const moodId = yield mediaRepository.insertOnMood({ userId, title, timer, videoId });
         const result = yield mediaRepository.insertOnMoodSound({ moodId, sounds });
         res.status(200).json({ messae: 'ok' });
@@ -67,7 +65,8 @@ const editMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(400).json({ message: 'member only' });
     }
     try {
-        const { userId, moodId, title, timer, videoId, sounds } = req.body;
+        const userId = req.userId;
+        const { moodId, title, timer, videoId, sounds } = req.body;
         const response = yield mediaRepository.editOnMood({ userId, moodId, title, timer, videoId });
         if (response[0] !== 0) {
             const result = yield mediaRepository.editOnMoodSound({ moodId, sounds });
@@ -86,7 +85,7 @@ const deleteMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         return res.status(400).json({ message: 'member only' });
     }
     try {
-        const moodId = req.body.moodId;
+        const moodId = Number(req.params.id);
         const response = yield mediaRepository.deleteOnMood(moodId);
         const result = yield mediaRepository.deleteOnMoodSound(moodId);
         if (response === 1 && result !== 0) {

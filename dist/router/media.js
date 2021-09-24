@@ -28,5 +28,5 @@ const router = express_1.default.Router();
 router.get('/all', mediaController.getAllMedia);
 router.post('/savemood', mediaController.saveMood);
 router.post('/editmood', mediaController.editMood);
-router.get('/deletemood', mediaController.deleteMood);
+router.delete('/:id', mediaController.deleteMood);
 exports.default = router;

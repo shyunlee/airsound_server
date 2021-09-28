@@ -28,7 +28,7 @@ export const saveMood = async (req: RequestT, res: Response) => {
     const {title, timer, videoId, sounds} = req.body
     const moodId = await mediaRepository.insertOnMood({userId, title, timer, videoId})
     const result = await mediaRepository.insertOnMoodSound({moodId, sounds})
-    res.status(200).json({messae: 'ok'})
+    res.status(200).json({message: 'ok', data:moodId})
   } catch (error) {
     console.log(error)
     res.status(400).json({message: 'something went wrong'})
@@ -60,10 +60,13 @@ export const deleteMood = async (req: RequestT, res: Response) => {
   }
   try {
     const moodId = Number(req.params.id)
-    const response = await mediaRepository.deleteOnMood(moodId)
-    const result = await mediaRepository.deleteOnMoodSound(moodId)
-    if (response === 1 && result !== 0) {
-      res.status(200).json({message: 'ok'})
+    const userIdFound = await mediaRepository.getUserIdByMoodId(moodId)
+    if (userIdFound?.userId === req.userId) {
+      const response = await mediaRepository.deleteOnMood(moodId)
+      const result = await mediaRepository.deleteOnMoodSound(moodId)
+      if (response === 1 && result !== 0) {
+        return res.status(200).json({message: 'ok'})
+      }
     }
     res.status(200).json({message: 'something went wrong'})
   } catch (error) {

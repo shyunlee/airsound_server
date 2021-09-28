@@ -95,6 +95,14 @@ export const editOnMoodSound = async ({moodId, sounds}: MoodSoundArg) => {
   return result
 }
 
+export const getUserIdByMoodId = async (moodId: number) => {
+  const result = await MoodModel.findByPk(moodId, {
+    attributes:["userId"]
+  })
+
+  return result
+}
+
 export const deleteOnMood = async (moodId: number) => {
   return await MoodModel.destroy({
     where: {

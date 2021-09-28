@@ -52,7 +52,7 @@ const saveMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { title, timer, videoId, sounds } = req.body;
         const moodId = yield mediaRepository.insertOnMood({ userId, title, timer, videoId });
         const result = yield mediaRepository.insertOnMoodSound({ moodId, sounds });
-        res.status(200).json({ messae: 'ok' });
+        res.status(200).json({ message: 'ok', data: moodId });
     }
     catch (error) {
         console.log(error);
@@ -86,10 +86,13 @@ const deleteMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     try {
         const moodId = Number(req.params.id);
-        const response = yield mediaRepository.deleteOnMood(moodId);
-        const result = yield mediaRepository.deleteOnMoodSound(moodId);
-        if (response === 1 && result !== 0) {
-            res.status(200).json({ message: 'ok' });
+        const userIdFound = yield mediaRepository.getUserIdByMoodId(moodId);
+        if ((userIdFound === null || userIdFound === void 0 ? void 0 : userIdFound.userId) === req.userId) {
+            const response = yield mediaRepository.deleteOnMood(moodId);
+            const result = yield mediaRepository.deleteOnMoodSound(moodId);
+            if (response === 1 && result !== 0) {
+                return res.status(200).json({ message: 'ok' });
+            }
         }
         res.status(200).json({ message: 'something went wrong' });
     }

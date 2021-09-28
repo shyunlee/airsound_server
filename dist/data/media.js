@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOnMoodSound = exports.deleteOnMood = exports.editOnMoodSound = exports.editOnMood = exports.insertOnMoodSound = exports.insertOnMood = exports.getMoodsByUser = exports.getAllVideos = exports.getAllSounds = void 0;
+exports.deleteOnMoodSound = exports.deleteOnMood = exports.getUserIdByMoodId = exports.editOnMoodSound = exports.editOnMood = exports.insertOnMoodSound = exports.insertOnMood = exports.getMoodsByUser = exports.getAllVideos = exports.getAllSounds = void 0;
 const sounds_1 = __importDefault(require("../models/sounds"));
 const videos_1 = __importDefault(require("../models/videos"));
 const moods_1 = __importDefault(require("../models/moods"));
@@ -93,6 +93,13 @@ const editOnMoodSound = ({ moodId, sounds }) => __awaiter(void 0, void 0, void 0
     return result;
 });
 exports.editOnMoodSound = editOnMoodSound;
+const getUserIdByMoodId = (moodId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield moods_1.default.findByPk(moodId, {
+        attributes: ["userId"]
+    });
+    return result;
+});
+exports.getUserIdByMoodId = getUserIdByMoodId;
 const deleteOnMood = (moodId) => __awaiter(void 0, void 0, void 0, function* () {
     return yield moods_1.default.destroy({
         where: {

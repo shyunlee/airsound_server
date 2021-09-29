@@ -52,7 +52,7 @@ const saveMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { title, timer, videoId, sounds } = req.body;
         const moodId = yield mediaRepository.insertOnMood({ userId, title, timer, videoId });
         const result = yield mediaRepository.insertOnMoodSound({ moodId, sounds });
-        res.status(200).json({ message: 'ok', data: moodId });
+        res.status(200).json({ message: 'saved', data: moodId });
     }
     catch (error) {
         console.log(error);
@@ -66,11 +66,13 @@ const editMood = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     try {
         const userId = req.userId;
-        const { moodId, title, timer, videoId, sounds } = req.body;
+        const { id, title, timer, videoId, sounds } = req.body;
+        const moodId = id;
         const response = yield mediaRepository.editOnMood({ userId, moodId, title, timer, videoId });
         if (response[0] !== 0) {
-            const result = yield mediaRepository.editOnMoodSound({ moodId, sounds });
-            return res.status(200).json({ messae: 'ok', data: result });
+            yield mediaRepository.editOnMoodSound({ moodId, sounds });
+            const result = yield mediaRepository.getMoodByMoodId(moodId);
+            return res.status(200).json({ message: 'updated', data: result === null || result === void 0 ? void 0 : result.getDataValue("id") });
         }
         res.status(400).json({ messae: 'something went wrong' });
     }

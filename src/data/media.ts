@@ -95,6 +95,29 @@ export const editOnMoodSound = async ({moodId, sounds}: MoodSoundArg) => {
   return result
 }
 
+export const getMoodByMoodId = async (moodId: number) => {
+  const moodFound = await MoodModel.findByPk(moodId, {
+    attributes:[
+      "id",
+      "title",
+      "userId",
+      "timer",
+    ],
+    include:[
+      {
+        model: VideoModel,
+        attributes: ["id", "title", "srcImage", "srcVideo"]
+      }, 
+      {
+        model:SoundModel, 
+        attributes:["id", "title", "srcImage", "srcSound", "volume"],
+        // include: [MoodSoundModel]
+      }
+    ]
+  })
+  return moodFound
+}
+
 export const getUserIdByMoodId = async (moodId: number) => {
   const result = await MoodModel.findByPk(moodId, {
     attributes:["userId"]

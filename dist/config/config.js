@@ -23,10 +23,10 @@ exports.config = {
         port: 3306
     },
     prod: {
-        username: "root",
-        password: null,
-        database: "database_production",
-        host: "127.0.0.1",
+        username: getEnvData('RDS_DB_USER'),
+        password: getEnvData('RDS_DB_PASSWORD'),
+        database: getEnvData('RDS_DB_NAME'),
+        host: getEnvData('RDS_DB_HOST'),
         dialect: "mysql",
         port: 3306
     },
@@ -42,5 +42,16 @@ exports.config = {
     },
     cors: {
         allowOrigin: getEnvData('CORS_ALLOW_ORIGIN')
+    },
+    github: {
+        clientID: getEnvData('GITHUB_CLIENT_ID'),
+        secretKey: getEnvData('GITHUB_CLIENT_SECRET')
+    },
+    google: {
+        clientID: getEnvData('GOOGLE_CLIENT_ID'),
+        secretKey: getEnvData('GOOGLE_CLIENT_SECRET')
+    },
+    oAuth: {
+        redirectURI: getEnvData('REDIRECT_URI')
     }
 };

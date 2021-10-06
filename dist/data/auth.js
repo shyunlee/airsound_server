@@ -24,8 +24,8 @@ const getByUsername = (username) => __awaiter(void 0, void 0, void 0, function* 
     return users_1.default.findOne({ where: { username } });
 });
 exports.getByUsername = getByUsername;
-const getByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    return users_1.default.findOne({ where: { email } });
+const getByEmail = (email, authProvider) => __awaiter(void 0, void 0, void 0, function* () {
+    return users_1.default.findOne({ where: { email, authProvider } });
 });
 exports.getByEmail = getByEmail;
 const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {

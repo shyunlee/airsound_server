@@ -6,8 +6,9 @@ export interface UserAttributes {
   id: number;
   username: string;
   email: string;
-  password: string;
+  password?: string;
   srcImage: string | undefined;
+  authProvider: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,10 +38,11 @@ const Users = sequelize.define<UserInstance>('users', {
     allowNull: false,
   },
   password: {
-    type: DataTypes.STRING(45),
-    allowNull: false,
+    type: DataTypes.STRING(128),
+    allowNull: true,
   },
   srcImage: DataTypes.STRING(128),
+  authProvider: DataTypes.STRING(45),
   createdAt:{
     type: 'DATETIME',
     allowNull: false

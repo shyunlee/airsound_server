@@ -18,10 +18,11 @@ const Users = database_1.sequelize.define('users', {
         allowNull: false,
     },
     password: {
-        type: sequelize_1.DataTypes.STRING(45),
-        allowNull: false,
+        type: sequelize_1.DataTypes.STRING(128),
+        allowNull: true,
     },
     srcImage: sequelize_1.DataTypes.STRING(128),
+    authProvider: sequelize_1.DataTypes.STRING(45),
     createdAt: {
         type: 'DATETIME',
         allowNull: false

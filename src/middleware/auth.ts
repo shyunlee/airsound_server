@@ -34,8 +34,7 @@ export const isAuth = (req: RequestT, res: Response, next: NextFunction) => {
     req.userId = userFound.id
     req.token = token
     next()
-  }
-  
+  }  
   jwt.verify(token, config.jwt.secretKey, jwtCallBack)
 }
 
@@ -51,9 +50,12 @@ export const isMember = (req: RequestT, res: Response, next: NextFunction) => {
   if (!token) {
     return next()
   }
-
+  console.log(req)
   const jwtCallBack: VerifyCallback = async (err, decoded) => {
     if (err) {
+      if (req.path === '/media/all') {
+        return next()
+      }
       console.log(err)
       return res.status(401).json({message: 'Authentication Error_3'})
     }

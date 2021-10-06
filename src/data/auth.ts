@@ -10,8 +10,8 @@ export const getByUsername = async (username: string) => {
   return UserModel.findOne({where:{username}})
 }
 
-export const getByEmail = async (email: string) => {
-  return UserModel.findOne({where:{email}})
+export const getByEmail = async (email: string, authProvider: string) => {
+  return UserModel.findOne({where:{email, authProvider}})
 }
 
 export const createUser = async (userInfo: UserCreationAttributes) => {
@@ -53,7 +53,7 @@ export const editUserInfo = async (id: number, edit:Edit) => {
       user.email = email
     }
     if (newPassword) {
-      const isMatched = await bcrypt.compare(currentPassword!, user.password)
+      const isMatched = await bcrypt.compare(currentPassword!, user.password!)
       if (isMatched) {
         user.password = await bcrypt.hash(newPassword, config.bcrypt.saltRounds)
       } else {

@@ -62,6 +62,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 username: userFound.username,
                 email: userFound.email,
                 srcImage: userFound.srcImage,
+                authProvider: userFound.authProvider,
             };
             setToken(res, token);
             return res.status(200).json({ message: 'ok', data: userInfo });
@@ -106,6 +107,7 @@ const githubLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 username: userRegistered.username,
                 email: userRegistered.email,
                 srcImage: userRegistered.srcImage,
+                authProvider: userRegistered.authProvider
             };
         }
         const token = createToken(userResponse.id);
@@ -145,6 +147,7 @@ const googleLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             username: userRegistered.username,
             email: userRegistered.email,
             srcImage: userRegistered.srcImage,
+            authProvider: userRegistered.authProvider
         };
     }
     const token = createToken(userResponse.id);
@@ -167,6 +170,7 @@ const me = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         username: userFound.username,
         email: userFound.email,
         srcImage: userFound.srcImage,
+        authProvider: userFound.authProvider,
     };
     res.status(200).json({ message: 'ok', data: response });
 });

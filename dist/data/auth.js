@@ -34,7 +34,8 @@ const createUser = (userInfo) => __awaiter(void 0, void 0, void 0, function* () 
             id: user.id,
             username: user.username,
             email: user.email,
-            srcImage: user.srcImage
+            srcImage: user.srcImage,
+            authProvider: user.authProvider
         };
     });
 });

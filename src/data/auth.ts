@@ -20,7 +20,8 @@ export const createUser = async (userInfo: UserCreationAttributes) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      srcImage: user.srcImage
+      srcImage: user.srcImage,
+      authProvider: user.authProvider
     }
   })
 }

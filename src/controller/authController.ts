@@ -31,6 +31,7 @@ export const login = async (req: Request, res: Response) => {
         username: userFound.username,
         email: userFound.email,
         srcImage: userFound.srcImage,
+        authProvider: userFound.authProvider,
       }
       setToken(res, token)
       return res.status(200).json({message:'ok', data:userInfo})
@@ -74,6 +75,7 @@ export const githubLogin = async (req: Request, res: Response) => {
         username: userRegistered.username,
         email: userRegistered.email,
         srcImage: userRegistered.srcImage,
+        authProvider: userRegistered.authProvider
       }
     }
     const token = createToken(userResponse.id)
@@ -112,6 +114,7 @@ export const googleLogin = async (req: Request, res: Response) => {
         username: userRegistered.username,
         email: userRegistered.email,
         srcImage: userRegistered.srcImage,
+        authProvider: userRegistered.authProvider
       }
     }
   const token = createToken(userResponse.id)
@@ -136,6 +139,7 @@ export const me = async (req: RequestT, res: Response) => {
     username: userFound.username,
     email: userFound.email,
     srcImage: userFound.srcImage,
+    authProvider: userFound.authProvider,
   }
   res.status(200).json({message: 'ok', data:response})
 }

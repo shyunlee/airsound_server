@@ -144,7 +144,6 @@ export const me = async (req: RequestT, res: Response) => {
   res.status(200).json({message: 'ok', data:response})
 }
 
-
 const createToken = (id: number) => {
   return jwt.sign({id}, config.jwt.secretKey, {expiresIn: config.jwt.expiredInSec})
 }

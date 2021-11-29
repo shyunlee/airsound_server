@@ -2,7 +2,6 @@
 import { DataTypes, Optional, Model } from 'sequelize';
 import { sequelize } from '../db/database';
 import { SoundAttributes } from './sounds';
-import Users from './users';
 import { VideoAttributes } from './videos';
 
 interface MoodAttributes {

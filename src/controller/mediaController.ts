@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { RequestT } from '../middleware/auth'
 import * as mediaRepository from '../data/media'
 

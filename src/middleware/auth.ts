@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import jwt, { JwtPayload, VerifyCallback } from 'jsonwebtoken'
+import jwt, { VerifyCallback } from 'jsonwebtoken'
 import { config } from '../config/config';
 import * as authRepository from '../data/auth'
 

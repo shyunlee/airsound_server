@@ -2,7 +2,6 @@ import SoundModel, {} from '../models/sounds'
 import VideoModel, {} from '../models/videos'
 import MoodModel, {} from '../models/moods'
 import MoodSoundModel, {} from '../models/mood_sounds'
-import { Sequelize } from 'sequelize'
 
 MoodModel.belongsTo(VideoModel, {foreignKey: 'videoId'})
 MoodModel.belongsToMany(SoundModel, {through: MoodSoundModel})

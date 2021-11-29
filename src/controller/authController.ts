@@ -1,5 +1,5 @@
 import { CookieOptions, Request, Response } from 'express'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import qs from 'qs'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'

@@ -9,7 +9,7 @@ import authRouter from './router/auth'
 import mediaRouter from './router/media'
 import settingRouter from './router/setting'
 import { config } from './config/config';
-import path from 'path'
+// import path from 'path'
 
 const app = express()
 

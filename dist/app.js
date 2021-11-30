@@ -14,6 +14,7 @@ const auth_2 = __importDefault(require("./router/auth"));
 const media_1 = __importDefault(require("./router/media"));
 const setting_1 = __importDefault(require("./router/setting"));
 const config_1 = require("./config/config");
+// import path from 'path'
 const app = (0, express_1.default)();
 const corsOption = {
     origin: config_1.config.cors.allowOrigin,

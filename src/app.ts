@@ -26,6 +26,11 @@ app.use(cors(corsOption))
 app.use(helmet())
 app.use(morgan('tiny'))
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true")
+  next()
+})
+
 app.use('/auth', authRouter)
 app.use('/media', isMember, mediaRouter)
 app.use('/setting', settingRouter)
@@ -45,8 +50,8 @@ app.use((err:ErrorRequestHandler, req: Request, res: Response, next: NextFunctio
 });
 
 sequelize.sync().then(() => {
-  app.listen(8080, () => {
+  app.listen(80, () => {
     console.log('DB connected')
-    console.log('server is on 8080')
+    console.log('server is on 80')
   })
 })

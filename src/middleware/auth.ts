@@ -17,6 +17,7 @@ export const isAuth = (req: RequestT, res: Response, next: NextFunction) => {
   }
   if (!token) {
     token = req.cookies['token']
+    console.log(token)
   }
   if (!token) {
     return res.status(404).json({message: 'invalid token'})
@@ -46,11 +47,11 @@ export const isMember = (req: RequestT, res: Response, next: NextFunction) => {
   }
   if (!token) {
     token = req.cookies['token']
+    console.log(token)
   }
   if (!token) {
     return next()
   }
-  console.log(req)
   const jwtCallBack: VerifyCallback = async (err, decoded) => {
     if (err) {
       if (req.path === '/media/all') {

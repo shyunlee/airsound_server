@@ -29,6 +29,10 @@ app.use((0, morgan_1.default)('tiny'));
 app.use('/auth', auth_2.default);
 app.use('/media', auth_1.isMember, media_1.default);
 app.use('/setting', setting_1.default);
+// app.use('/', express.static(__dirname + '/build'));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+// })
 app.use((req, res, next) => {
     res.sendStatus(404);
 });

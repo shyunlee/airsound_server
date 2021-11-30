@@ -9,6 +9,7 @@ import authRouter from './router/auth'
 import mediaRouter from './router/media'
 import settingRouter from './router/setting'
 import { config } from './config/config';
+import path from 'path'
 
 const app = express()
 
@@ -28,6 +29,11 @@ app.use(morgan('tiny'))
 app.use('/auth', authRouter)
 app.use('/media', isMember, mediaRouter)
 app.use('/setting', settingRouter)
+
+// app.use('/', express.static(__dirname + '/build'));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'build', 'index.html'))
+// })
 
 app.use((req, res, next) => {
   res.sendStatus(404);

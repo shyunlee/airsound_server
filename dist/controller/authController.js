@@ -185,5 +185,5 @@ const setToken = (res, token) => {
         sameSite: 'none',
         secure: true
     };
-    res.cookie('token', token);
+    res.cookie('token', token, options);
 };

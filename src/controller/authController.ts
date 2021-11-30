@@ -155,5 +155,5 @@ const setToken = (res: Response, token: string) => {
     sameSite: 'none',
     secure: true
   }
-  res.cookie('token', token)
+  res.cookie('token', token, options)
 }

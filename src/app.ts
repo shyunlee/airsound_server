@@ -40,8 +40,9 @@ app.use('/setting', settingRouter)
 //   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 // })
 
-app.use((req, res, next) => {
-  res.sendStatus(404);
+
+app.use('/', (req, res, next) => {
+  res.sendStatus(200);
 });
 
 app.use((err:ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {

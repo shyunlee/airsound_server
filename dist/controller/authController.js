@@ -79,6 +79,7 @@ const githubLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         code: authCode,
         redirect_uri: config_1.config.oAuth.redirectURI
     });
+    console.log(queryString);
     const authRequestUrl = `https://github.com/login/oauth/access_token?${queryString}`;
     const response = yield axios_1.default.post(authRequestUrl);
     if (response.status === 200) {

@@ -6,7 +6,9 @@ import * as mediaRepository from '../data/media'
 export const getAllMedia = async (req: RequestT, res: Response) => {
   const videos = await mediaRepository.getAllVideos()
   const sounds = await mediaRepository.getAllSounds()
-  const moods = req.userId ? await mediaRepository.getMoodsByUser(req.userId) : []
+  const defaultMoods = await mediaRepository.getMoodsByUser(1)
+  const moodsByUser = req.userId ? await mediaRepository.getMoodsByUser(req.userId) : []
+  const moods = defaultMoods.concat(moodsByUser)
   
   res.status(200).json({message: 'ok', data:{moods, videos, sounds}})
 }

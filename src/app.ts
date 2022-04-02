@@ -51,7 +51,7 @@ app.use((err:ErrorRequestHandler, req: Request, res: Response, next: NextFunctio
 });
 
 sequelize.sync().then(() => {
-  app.listen(80, () => {
+  app.listen(8080, () => {
     console.log('DB connected')
     console.log('server is on 80')
   })

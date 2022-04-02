@@ -75,7 +75,6 @@ const isMember = (req, res, next) => {
     if (!token) {
         return next();
     }
-    console.log(req);
     const jwtCallBack = (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
             if (req.path === '/media/all') {

@@ -27,6 +27,10 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)(corsOption));
 app.use((0, helmet_1.default)());
 app.use((0, morgan_1.default)('tiny'));
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    next();
+});
 app.use('/auth', auth_2.default);
 app.use('/media', auth_1.isMember, media_1.default);
 app.use('/setting', setting_1.default);
@@ -34,8 +38,8 @@ app.use('/setting', setting_1.default);
 // app.get('/*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 // })
-app.use((req, res, next) => {
-    res.sendStatus(404);
+app.use('/', (req, res, next) => {
+    res.sendStatus(200);
 });
 app.use((err, req, res, next) => {
     console.error(err);
@@ -44,6 +48,6 @@ app.use((err, req, res, next) => {
 database_js_1.sequelize.sync().then(() => {
     app.listen(8080, () => {
         console.log('DB connected');
-        console.log('server is on 8080');
+        console.log('server is on 80');
     });
 });

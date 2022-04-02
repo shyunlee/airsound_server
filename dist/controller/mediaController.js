@@ -33,7 +33,9 @@ const mediaRepository = __importStar(require("../data/media"));
 const getAllMedia = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const videos = yield mediaRepository.getAllVideos();
     const sounds = yield mediaRepository.getAllSounds();
-    const moods = req.userId ? yield mediaRepository.getMoodsByUser(req.userId) : [];
+    const defaultMoods = yield mediaRepository.getMoodsByUser(1);
+    const moodsByUser = req.userId ? yield mediaRepository.getMoodsByUser(req.userId) : [];
+    const moods = defaultMoods.concat(moodsByUser);
     res.status(200).json({ message: 'ok', data: { moods, videos, sounds } });
 });
 exports.getAllMedia = getAllMedia;
